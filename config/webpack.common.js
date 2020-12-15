@@ -4,7 +4,7 @@ const plugins = require('./plugins');
 const webpack = require('webpack');
 
 module.exports={
-    entry: ["/src/js/app.js"],
+    entry: ["/src/index.js"],
     module: {
         rules: [
             loaders.JSLoader,
@@ -22,5 +22,6 @@ module.exports={
         plugins.ESLintPlugin,
         plugins.StyleLintPlugin,
         plugins.MiniCssExtractPlugin,
+        plugins.HtmlWebpackPlugin
     ],
 }

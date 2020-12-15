@@ -3,6 +3,7 @@ const _MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const _ESLintPlugin = require("eslint-webpack-plugin");
 const _StyleLintPlugin = require('stylelint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const MiniCssExtractPlugin = new _MiniCssExtractPlugin({
@@ -12,19 +13,25 @@ const MiniCssExtractPlugin = new _MiniCssExtractPlugin({
 
 const ESLintPlugin = new _ESLintPlugin({
   overrideConfigFile: path.resolve(__dirname, ".eslintrc"),
-  context: path.resolve(__dirname, "../src/js"),
+  context: path.resolve(__dirname, "../src"),
   files: "**/*.js",
 });
 
 const StyleLintPlugin = new _StyleLintPlugin({
   configFile: path.resolve(__dirname, 'stylelint.config.js'),
-  context: path.resolve(__dirname, '../src/css'),
+  context: path.resolve(__dirname, '../src/styles'),
   files: '**/*.css',
 });
+
+const HtmlConfig = {
+  filename: 'index.html',
+  template: 'public/index.html'
+}
 
 module.exports = {
   MiniCssExtractPlugin: MiniCssExtractPlugin,
   StyleLintPlugin: StyleLintPlugin,
   ESLintPlugin: ESLintPlugin,
   CleanWebpackPlugin: new CleanWebpackPlugin(),
+  HtmlWebpackPlugin: new HtmlWebpackPlugin(HtmlConfig),
 };
