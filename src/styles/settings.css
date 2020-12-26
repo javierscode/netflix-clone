@@ -1,5 +1,34 @@
-:root{
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap");
 
-    --primary-color: #ffffff;
-    
+:root {
+  /*Colors*/
+  --background-color-primary: #141414;
+  --background-color-secundary: #303030;
+  --background-color-highlighted: #4d4d4d;
+
+  --color-brand-venetian-red: #e50914;
+
+  --color-base-white: #e5e5e5;
+  --color-base-black: black;
+
+  /*Fonts*/
+  --font-family: "Kanit", sans-serif;
+
+  --font-size-base: 10px;
+  --font-size-xs: 1.1rem;
+  --font-size-sm: 1.3rem;
+  --font-size-md: 1.5rem;
+  --font-size-lg: 1.8rem;
+  --font-size-xl: 2.1rem;
+  --font-size-2xl: 6rem;
+
+  --font-weight-hairline: 100;
+  --font-weight-thin: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
 }
