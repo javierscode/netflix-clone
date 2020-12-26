@@ -1,0 +1,10 @@
+html,
+body {
+  height: 100%;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+}
+
+#root {
+  height: 100%;
+}
