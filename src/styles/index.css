@@ -2,4 +2,5 @@
 @import 'settings.css';
 @import 'globals.css';
 
-@import './components/Header.css'
+@import './components/Header.css';
+@import './components/Hero.css';

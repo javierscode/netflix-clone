@@ -1,25 +1,32 @@
 import "./styles/index.css";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 import { Header } from "./components/Header";
 import { useAPI } from "./api";
+import { getOriginalImage } from "./utils";
 
 
 function App() {
-  const {getMostPopularMovies, loading, data } = useAPI();
+  const {getHighlight, loading } = useAPI();
 
-  useEffect(() => {
-    getMostPopularMovies();    
+  const [data, setData] = useState({});
+
+  useEffect(async() => {
+    setData(await getHighlight())
   }, []);
 
   useEffect(() => {
     console.log(data);
   }, [data]);
 
-  return (
+  return loading ||data=={} ? 'Loading...':  
+  (
     <>
-      {loading ? 'Loading...': <Header />}
+      <Header />
+      <div class="hero" style={{backgroundImage:"url("+getOriginalImage(data.backdrop_path)+")"}}>
+
+      </div>
     </>
   );
 }
