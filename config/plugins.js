@@ -28,10 +28,15 @@ const HtmlConfig = {
   template: 'public/index.html'
 }
 
+const dotenv = require('dotenv').config( {
+  path: path.resolve(__dirname, '../.env')
+} );
+
 module.exports = {
   MiniCssExtractPlugin: MiniCssExtractPlugin,
   StyleLintPlugin: StyleLintPlugin,
   ESLintPlugin: ESLintPlugin,
   CleanWebpackPlugin: new CleanWebpackPlugin(),
   HtmlWebpackPlugin: new HtmlWebpackPlugin(HtmlConfig),
+  dotenv:dotenv,
 };

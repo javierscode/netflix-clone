@@ -1,13 +1,25 @@
 import "./styles/index.css";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { render } from "react-dom";
 import { Header } from "./components/Header";
+import { useAPI } from "./api";
+
 
 function App() {
+  const {getMostPopularMovies, loading, data } = useAPI();
+
+  useEffect(() => {
+    getMostPopularMovies();    
+  }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <>
-      <Header/>
+      {loading ? 'Loading...': <Header />}
     </>
   );
 }
