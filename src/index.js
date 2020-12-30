@@ -1,14 +1,15 @@
-import './styles/index.css';
+import "./styles/index.css";
 
-import React, { useState } from "react";
+import React from "react";
 import { render } from "react-dom";
+import { Header } from "./components/Header";
 
 function App() {
-    const [state, setState] = useState("CLICK ME");
-
-    return (<> 
-    <h1>Hola esto es una prueba</h1>
-    <button onClick={() => setState("hola")}>{state}</button></>);
+  return (
+    <>
+      <Header/>
+    </>
+  );
 }
 
 render(<App />, document.getElementById("root"));
