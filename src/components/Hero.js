@@ -1,14 +1,15 @@
 import React from "react";
+import { getOriginalImage } from "../utils";
 
-const Hero = () => {
+const Hero = (props) => {
   return (
     <div
-      class="hero"
+      className="hero"
       style={{
-        backgroundImage: "url(" + getOriginalImage(data.backdrop_path) + ")",
+        backgroundImage: "url(" + getOriginalImage(props.backdrop_path) + ")",
       }}
     >
-      <h1>{data.name ? data.name : data.original_title}</h1>
+      <h1>{props.name ? props.name : props.original_title}</h1>
     </div>
   );
 };
