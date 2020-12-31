@@ -11,7 +11,7 @@ export const ShowsProvider = ( props ) => {
     useEffect(async() => {
         if(shows.length==0){
             const data= await getMostPopularTVShows()
-            setShows(data);
+            setShows(data.results);
         }
     }, [])
 
