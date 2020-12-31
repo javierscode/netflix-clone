@@ -11,6 +11,7 @@ import Movies from "./Views/Movies";
 import Shows from "./Views/Shows";
 
 function App() {
+
   return (
     <MoviesProvider>
       <ShowsProvider>
