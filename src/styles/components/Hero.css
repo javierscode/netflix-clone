@@ -4,4 +4,11 @@
     background-position: top left;
     background-repeat: no-repeat;
     background-size: cover;
+
+    & h1{
+        position: relative;
+        left: 5%;
+        top: 60%;
+        font-size: 5rem;
+    }
 }
