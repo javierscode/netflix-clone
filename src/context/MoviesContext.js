@@ -8,9 +8,9 @@ export const MoviesProvider = ( props ) => {
     const [movies, setMovies] = useState([]);
     const {getMostPopularMovies} = useAPI()
 
-    useEffect(() => {
+    useEffect(async() => {
         if(movies.length==0){
-            const data= getMostPopularMovies()
+            const data= await getMostPopularMovies()
             setMovies(data);
         }
     }, [])

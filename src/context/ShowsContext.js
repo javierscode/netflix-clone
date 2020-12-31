@@ -8,9 +8,9 @@ export const ShowsProvider = ( props ) => {
     const [shows, setShows] = useState([]);
     const {getMostPopularTVShows} = useAPI()
 
-    useEffect(() => {
+    useEffect(async() => {
         if(shows.length==0){
-            const data= getMostPopularTVShows()
+            const data= await getMostPopularTVShows()
             setShows(data);
         }
     }, [])
