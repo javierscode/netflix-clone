@@ -28,6 +28,10 @@ export const useAPI = () =>{
         return await getData('movie/popular')
     }
 
+    const getMostPopularTVShows = async()=>{
+        return await getData('tv/popular')
+    }
+
     const getHighlight = async()=>{
         
         const endPoints = ['movie/popular','tv/popular']
@@ -37,6 +41,6 @@ export const useAPI = () =>{
     }
     
 
-    return {...state, getMostPopularMovies, getHighlight}
+    return {...state, getMostPopularMovies, getMostPopularTVShows, getHighlight}
 
 }
