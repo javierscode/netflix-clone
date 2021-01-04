@@ -9,6 +9,7 @@ export default function Home() {
   const [loadPage, setLoadPage] = useState(false);
 
   const [highlight, setHighlight] = useState({});
+  const [desicion, setDesicion] = useState('');
 
   const movies = useMovies();
   const shows = useShows();
@@ -17,13 +18,12 @@ export default function Home() {
     if (movies.length == 0 || shows.length == 0) {
       setLoadPage(false);
     } else {
-      const desicion = getRandomElementFromArray(["movies", "shows"]);
-
+      setDesicion(getRandomElementFromArray(["movies", "shows"]));
       desicion == "movies"
         ? setHighlight(getRandomElementFromArray(movies))
         : setHighlight(getRandomElementFromArray(shows));
 
-      setTimeout(() => setLoadPage(true), 1000);
+      setTimeout(() => setLoadPage(true), 500);
     }
   }, [movies, shows]);
 
@@ -31,7 +31,7 @@ export default function Home() {
     <>
       {loadPage ? (
         <>
-          <Hero {...highlight} />
+          <Hero {...highlight} type={desicion} />
         </>
       ) : (
         <Loading />

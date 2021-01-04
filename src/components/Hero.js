@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAPI } from "../api";
 import { getOriginalImage } from "../utils";
 
 const Hero = (props) => {
+
+
+  const [videos, setVideos] = useState({})
+
+  const {getVideosFromMovie, getVideosFromTVShow} = useAPI();
+
+  useEffect(async() => {
+    
+    if(props.type == 'movies'){
+
+      const {results} = await getVideosFromMovie(props.id);
+      console.log(results)
+    } else {
+      const {results} = await getVideosFromTVShow(props.id);
+      console.log(results)
+    }
+
+  }, [])
+
   return (
     <div
       className="hero"

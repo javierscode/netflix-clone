@@ -39,8 +39,22 @@ export const useAPI = () =>{
         return getRandomElementFromArray(results)
 
     }
+
+    const getVideosFromMovie = async(id)=>{
+
+        const endpoint = `movie/${id}/videos`
+        return await getData(endpoint);
+
+    }
+
+    const getVideosFromTVShow = async(id)=>{
+
+        const endpoint = `tv/${id}/videos`
+        return await getData(endpoint);
+
+    }
     
 
-    return {...state, getMostPopularMovies, getMostPopularTVShows, getHighlight}
+    return {...state, getMostPopularMovies, getMostPopularTVShows, getHighlight, getVideosFromMovie,getVideosFromTVShow}
 
 }
