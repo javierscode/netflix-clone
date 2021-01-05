@@ -1,6 +1,5 @@
 html,
 body {
-  height: 100%;
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: var(--font-size-base);
@@ -8,6 +7,3 @@ body {
   color: var(--color-base-white);
 }
 
-#root {
-  height: 100%;
-}
