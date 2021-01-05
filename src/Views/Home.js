@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import Loading from "../components/Loading";
+import SectionList from "../components/SectionList";
 import { useMovies } from "../context/MoviesContext";
 import { useShows } from "../context/ShowsContext";
-import { getRandomElementFromArray } from "../utils";
+import { getOriginalImage, getRandomElementFromArray } from "../utils";
 
 export default function Home() {
   const [loadPage, setLoadPage] = useState(false);
@@ -32,6 +33,8 @@ export default function Home() {
       {loadPage ? (
         <>
           <Hero {...highlight}  />
+          <SectionList title="Most Popular" list={movies}/>
+          <div style={{margin:"400px"}}/>
         </>
       ) : (
         <Loading />

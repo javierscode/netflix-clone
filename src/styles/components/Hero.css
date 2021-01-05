@@ -7,9 +7,9 @@
     overflow: hidden;
 
     & .content{
-        position: fixed;
-        left: 5%;
-        top: 50%;
+        position: absolute;
+        left: 10rem;
+        bottom: 20vh;
         display:inline-block;
         z-index:1;
         max-width: 600px;
