@@ -7,9 +7,7 @@ const SectionList = ({ title, list, vertical = false }) => {
   const listRef = useRef(null);
   const leftRef = useRef(null);
 
-  const height = vertical ? "600px": "200px";
-
- 
+  const height = vertical ? "600px": "200px"; 
 
   const MoveTo =(type)=>{
 
@@ -36,7 +34,7 @@ const SectionList = ({ title, list, vertical = false }) => {
   return (
     <div className="section-list">
       <h2>{title}</h2>
-      <div className="controls">
+      <div className="controls" style={vertical?{top:"250px"}:null}>
         <div ref={leftRef} onClick={()=> MoveTo('left')}><Arrow fill="#ffffff" height="30px"/></div>
         <div onClick={()=> MoveTo('right')}><Arrow fill="#ffffff" height="30px" transform="rotate(180)"/></div>
       </div>
