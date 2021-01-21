@@ -7,13 +7,13 @@ export const useAPI = () =>{
     const [state, setState] = useState({ loading: false, error: false })
 
 
-    const getData= async(endpoint, page=1) =>{
+    const getData= async(endpoint, page=1, extraParameters="") =>{
 
         setState({loading:true, error:false});
 
         try {
             
-            const result = await fetch(API_URL+endpoint+API_KEY+"&page="+page);
+            const result = await fetch(API_URL+endpoint+API_KEY+"&page="+page+extraParameters);
             const data = await result.json();
 
             setState({ loading: false, error: false} );
@@ -55,8 +55,20 @@ export const useAPI = () =>{
         return await getData(endpoint);
 
     }
+
+    const getNetflixOriginalsMovies = async()=>{
+
+        return await getData('/movie/popular',1,'&with_networks=213');
+
+    }
+
+    const getNetflixOriginalsTVShows= async()=>{
+
+        return await getData('/tv/popular',1,'&with_networks=213');
+
+    }
     
 
-    return {...state, getMostPopularMovies, getMostPopularTVShows, getVideosFromMovie,getVideosFromTVShow, getTopRatedMovies, getTopRatedTVShows}
+    return {...state, getMostPopularMovies, getMostPopularTVShows, getVideosFromMovie,getVideosFromTVShow, getTopRatedMovies, getTopRatedTVShows, getNetflixOriginalsMovies, getNetflixOriginalsTVShows}
 
 }
