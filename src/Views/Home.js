@@ -15,21 +15,24 @@ export default function Home() {
   const {movies, setMovies} = useMovies();
   const {shows, setShows} = useShows();
 
-  const {getMostPopularMovies, getMostPopularTVShows, getTopRatedMovies, getTopRatedTVShows } = useAPI()
+  const {getMostPopularMovies, getMostPopularTVShows, getTopRatedMovies, getTopRatedTVShows, getNetflixOriginalsMovies, getNetflixOriginalsTVShows } = useAPI()
 
   useEffect(async() => {
 
       setLoadPage(false);
-      
+
       const {results : mostPopularMovies} = await getMostPopularMovies()
       const {results : topRatedMovies} = await getTopRatedMovies()
+      const {results : netflixOriginalsMovies} = await getNetflixOriginalsMovies()
 
-      setMovies({...movies, mostPopular: mostPopularMovies, topRated: topRatedMovies})
+      setMovies({...movies, mostPopular: mostPopularMovies, topRated: topRatedMovies, netflixOriginals : netflixOriginalsMovies})
 
       const {results : mostPopularTVShows} = await getMostPopularTVShows()
       const {results : topRatedTVShows} = await getTopRatedTVShows()
+      const {results : netflixOriginalsTVShows} = await getNetflixOriginalsTVShows()
 
-      setShows({...shows, mostPopular: mostPopularTVShows, topRated: topRatedTVShows})
+
+      setShows({...shows, mostPopular: mostPopularTVShows, topRated: topRatedTVShows, netflixOriginals:netflixOriginalsTVShows})
 
   }, []);
 
@@ -56,7 +59,7 @@ export default function Home() {
           <Hero {...highlight}  />
           <SectionList title="Most Popular" list={getMergedArray(movies.mostPopular,shows.mostPopular)}/>
           <SectionList title="Top Rated" list={getMergedArray(movies.topRated, shows.topRated)}/>
-          <SectionList title="Netflix Originals" list={getMergedArray(movies.topRated, shows.topRated)} vertical={true}/>
+          <SectionList title="Netflix Originals" list={getMergedArray(movies.netflixOriginals, shows.netflixOriginals)} vertical={true}/>
           <div style={{margin:"400px"}}/>
         </>
       ) : (
