@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(async() => {
 
       setLoadPage(false);
-      debugger;
+      
       const {results : mostPopularMovies} = await getMostPopularMovies()
       const {results : topRatedMovies} = await getTopRatedMovies()
 
@@ -56,6 +56,7 @@ export default function Home() {
           <Hero {...highlight}  />
           <SectionList title="Most Popular" list={getMergedArray(movies.mostPopular,shows.mostPopular)}/>
           <SectionList title="Top Rated" list={getMergedArray(movies.topRated, shows.topRated)}/>
+          <SectionList title="Netflix Originals" list={getMergedArray(movies.topRated, shows.topRated)} vertical={true}/>
           <div style={{margin:"400px"}}/>
         </>
       ) : (

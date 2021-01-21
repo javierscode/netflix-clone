@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { getOriginalImage } from "../utils";
 import Arrow from "./icons/Arrow";
 
-const SectionList = ({ title, list }) => {
+const SectionList = ({ title, list, vertical = false }) => {
 
   const listRef = useRef(null);
   const leftRef = useRef(null);
+
+  const height = vertical ? "600px": "200px";
+
+ 
 
   const MoveTo =(type)=>{
 
@@ -37,17 +41,22 @@ const SectionList = ({ title, list }) => {
         <div onClick={()=> MoveTo('right')}><Arrow fill="#ffffff" height="30px" transform="rotate(180)"/></div>
       </div>
       <div className="list" ref={listRef}>
-        {list.map((item) => (
+        {list.map((item) => {
+          const imageURL = vertical 
+                ? item.poster_path ? item.poster_path : item.backdrop_path 
+                : item.backdrop_path ? item.backdrop_path : item.poster_path;
+          return (
           <div
             className="item"
             style={{
               backgroundImage:
-                "url('" + getOriginalImage(item.backdrop_path ? item.backdrop_path : item.poster_path) + "')",
+                "url('" + getOriginalImage(imageURL) + "')",
+                height
             }}
           >
             <h3>{item.name ? item.name : item.title}</h3>
           </div>
-        ))}
+        )})}
       </div>
 
     </div>
