@@ -15,26 +15,30 @@ export default function Home() {
   const {movies, setMovies} = useMovies();
   const {shows, setShows} = useShows();
 
-  const {getMostPopularMovies, getMostPopularTVShows } = useAPI()
+  const {getMostPopularMovies, getMostPopularTVShows, getTopRatedMovies, getTopRatedTVShows } = useAPI()
 
   useEffect(async() => {
 
-    if (Object.keys(movies).length == 0 || Object.keys(shows).length == 0) {
-
       setLoadPage(false);
-
+      debugger;
       const {results : mostPopularMovies} = await getMostPopularMovies()
-      setMovies({...movies, mostPopular: mostPopularMovies })
+      const {results : topRatedMovies} = await getTopRatedMovies()
+
+      setMovies({...movies, mostPopular: mostPopularMovies, topRated: topRatedMovies})
 
       const {results : mostPopularTVShows} = await getMostPopularTVShows()
-      setShows({...shows, mostPopular: mostPopularTVShows})
+      const {results : topRatedTVShows} = await getTopRatedTVShows()
 
-    } else {
+      setShows({...shows, mostPopular: mostPopularTVShows, topRated: topRatedTVShows})
+
+  }, []);
+
+  useEffect(() => {
+    if(Object.keys(movies).length >1 && Object.keys(shows).length >1){
       setRandomHighligh();
       setTimeout(() => setLoadPage(true), 500);
     }
-  }, [, movies, shows]);
-
+  }, [movies,shows])
 
   const setRandomHighligh = () =>{
       const decision = getRandomElementFromArray(["movies", "shows"]);
@@ -51,6 +55,7 @@ export default function Home() {
         <>
           <Hero {...highlight}  />
           <SectionList title="Most Popular" list={getMergedArray(movies.mostPopular,shows.mostPopular)}/>
+          <SectionList title="Top Rated" list={getMergedArray(movies.topRated, shows.topRated)}/>
           <div style={{margin:"400px"}}/>
         </>
       ) : (

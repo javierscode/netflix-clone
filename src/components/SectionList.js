@@ -42,7 +42,7 @@ const SectionList = ({ title, list }) => {
             className="item"
             style={{
               backgroundImage:
-                "url('" + getOriginalImage(item.backdrop_path) + "')",
+                "url('" + getOriginalImage(item.backdrop_path ? item.backdrop_path : item.poster_path) + "')",
             }}
           >
             <h3>{item.name ? item.name : item.title}</h3>

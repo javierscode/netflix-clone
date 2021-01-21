@@ -10,6 +10,7 @@ export const useAPI = () =>{
     const getData= async(endpoint, page=1) =>{
 
         setState({loading:true, error:false});
+
         try {
             
             const result = await fetch(API_URL+endpoint+API_KEY+"&page="+page);
@@ -25,36 +26,37 @@ export const useAPI = () =>{
     }
 
     const getMostPopularMovies = async()=>{
-        return await getData('movie/popular')
+        return await getData('/movie/popular')
     }
 
     const getMostPopularTVShows = async()=>{
-        return await getData('tv/popular')
+        return await getData('/tv/popular')
     }
 
-    const getHighlight = async()=>{
-        
-        const endPoints = ['movie/popular','tv/popular']
-        const {results}= await getData(getRandomElementFromArray(endPoints));
-        return getRandomElementFromArray(results)
-
+    const getTopRatedMovies = async()=>{
+        return await getData('/movie/top_rated')
     }
+
+    const getTopRatedTVShows = async()=>{
+        return await getData('/tv/top_rated')
+    }
+
 
     const getVideosFromMovie = async(id)=>{
 
-        const endpoint = `movie/${id}/videos`
+        const endpoint = `/movie/${id}/videos`
         return await getData(endpoint);
 
     }
 
     const getVideosFromTVShow = async(id)=>{
 
-        const endpoint = `tv/${id}/videos`
+        const endpoint = `/tv/${id}/videos`
         return await getData(endpoint);
 
     }
     
 
-    return {...state, getMostPopularMovies, getMostPopularTVShows, getHighlight, getVideosFromMovie,getVideosFromTVShow}
+    return {...state, getMostPopularMovies, getMostPopularTVShows, getVideosFromMovie,getVideosFromTVShow, getTopRatedMovies, getTopRatedTVShows}
 
 }
