@@ -5,18 +5,9 @@ const ShowsContext = React.createContext({});
 
 export const ShowsProvider = ( props ) => {
 
-    const [shows, setShows] = useState([]);
-    const {getMostPopularTVShows} = useAPI()
+    const [shows, setShows] = useState({});
 
-    useEffect(async() => {
-        if(shows.length==0){
-            const data= await getMostPopularTVShows()
-            setShows(data.results);
-        }
-    }, [])
-
-
-    return (<ShowsContext.Provider value={shows} {...props}>
+    return (<ShowsContext.Provider value={{shows, setShows}} {...props}>
         {props.children}
     </ShowsContext.Provider>)
 };

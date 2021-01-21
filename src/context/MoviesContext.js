@@ -5,18 +5,9 @@ const MoviesContext = React.createContext({});
 
 export const MoviesProvider = ( props ) => {
 
-    const [movies, setMovies] = useState([]);
-    const {getMostPopularMovies} = useAPI()
+    const [movies, setMovies] = useState({});
 
-    useEffect(async() => {
-        if(movies.length==0){
-            const data= await getMostPopularMovies()
-            setMovies(data.results);
-        }
-    }, [])
-
-
-    return (<MoviesContext.Provider value={movies} {...props}>
+    return (<MoviesContext.Provider value={{movies, setMovies}} {...props}>
         {props.children}
     </MoviesContext.Provider>)
 };
