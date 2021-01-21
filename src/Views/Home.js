@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import SectionList from "../components/SectionList";
 import { useMovies } from "../context/MoviesContext";
 import { useShows } from "../context/ShowsContext";
-import {getRandomElementFromArray } from "../utils";
+import {getMergedArray, getRandomElementFromArray } from "../utils";
 
 export default function Home() {
   const [loadPage, setLoadPage] = useState(false);
@@ -44,13 +44,13 @@ export default function Home() {
       selected.type= decision;
       setHighlight(selected)
     }
-
+function
   return (
     <>
       {loadPage ? (
         <>
           <Hero {...highlight}  />
-          <SectionList title="Most Popular" list={[...movies.mostPopular,...shows.mostPopular]}/>
+          <SectionList title="Most Popular" list={getMergedArray(movies.mostPopular,shows.mostPopular)}/>
           <div style={{margin:"400px"}}/>
         </>
       ) : (
