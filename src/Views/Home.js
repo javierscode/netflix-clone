@@ -44,7 +44,7 @@ export default function Home() {
       selected.type= decision;
       setHighlight(selected)
     }
-function
+
   return (
     <>
       {loadPage ? (
