@@ -1,6 +1,6 @@
 
 .section-list{
-    padding-left: 10em;
+    padding-left: var(--horizontal-spacing);
     padding-top: 5rem;
 
 

@@ -8,7 +8,7 @@
 
     & .content{
         position: absolute;
-        left: 10rem;
+        left: var(--horizontal-spacing);
         bottom: 20vh;
         display:inline-block;
         z-index:1;
