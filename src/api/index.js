@@ -55,12 +55,20 @@ export const useAPI = () => {
     return await getData("/tv/popular", 1, "&with_networks=213");
   };
 
-  const getMoviesByGenre = async (id) =>{
-    return await getData("/movie/popular", 1,`&with_genre=${id}`);
+  const getMoviesByGenre = async (id) => {
+    return await getData("/movie/popular", 1, `&with_genre=${id}`);
   };
 
-  const getTVShowsByGenre = async (id) =>{
-    return await getData("/tv/popular", 1,`&with_genre=${id}`);
+  const getTVShowsByGenre = async (id) => {
+    return await getData("/tv/popular", 1, `&with_genre=${id}`);
+  };
+
+  const getListOfMoviesGenre = async () => {
+    return await getData("/genre/movie/list");
+  };
+
+  const getListOfTVShowsGenre = async () => {
+    return await getData("/genre/tv/list");
   };
 
   return {
@@ -74,6 +82,8 @@ export const useAPI = () => {
     getNetflixOriginalsMovies,
     getNetflixOriginalsTVShows,
     getMoviesByGenre,
-    getTVShowsByGenre
+    getTVShowsByGenre,
+    getListOfMoviesGenre,
+    getListOfTVShowsGenre,
   };
 };
