@@ -56,11 +56,11 @@ export const useAPI = () => {
   };
 
   const getMoviesByGenre = async (id) => {
-    return await getData("/movie/popular", 1, `&with_genre=${id}`);
+    return await getData("/movie/popular", 1, `&with_genres=${id}`);
   };
 
   const getTVShowsByGenre = async (id) => {
-    return await getData("/tv/popular", 1, `&with_genre=${id}`);
+    return await getData("/tv/popular", 1, `&with_genres=${id}`);
   };
 
   const getListOfMoviesGenre = async () => {
