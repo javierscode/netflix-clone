@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getOriginalImage } from "../utils";
 import Arrow from "./icons/Arrow";
+import Card from './atoms/Card'
 
 const SectionList = ({ title, list, vertical = false }) => {
 
@@ -44,16 +45,7 @@ const SectionList = ({ title, list, vertical = false }) => {
                 ? item.poster_path ? item.poster_path : item.backdrop_path 
                 : item.backdrop_path ? item.backdrop_path : item.poster_path;
           return (
-          <div
-            className="item"
-            style={{
-              backgroundImage:
-                "url('" + getOriginalImage(imageURL) + "')",
-                height
-            }}
-          >
-            <h3>{item.name ? item.name : item.title}</h3>
-          </div>
+          <Card title={item.name ? item.name : item.title} imageURL={getOriginalImage(imageURL)} large={vertical}/>
         )})}
       </div>
 
