@@ -3,7 +3,7 @@ import './../../styles/index.css'
 
 const Styles = ({children}) => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
+        <div style={{ display: 'block', marginTop: '2rem'}}>
             {children}
         </div>
     )
