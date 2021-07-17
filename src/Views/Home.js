@@ -52,7 +52,6 @@ export default function Home() {
     //     setHighlight(selected)
     //   }
     console.log(highlighted);
-    console.log(loading);
 
     return (
         <>
@@ -64,6 +63,7 @@ export default function Home() {
                       title={highlighted.title}
                       description={highlighted.description}
                       backgroundImage={highlighted.images.horizontal}
+                      youtubeID={highlighted.youtubeID}
                   />
                   <CardList title="Most Popular" list={mostPopular}/>
 
