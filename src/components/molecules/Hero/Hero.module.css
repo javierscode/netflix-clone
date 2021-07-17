@@ -1,0 +1,42 @@
+.hero {
+    width: 100%;
+    height: 90vh;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.content {
+    position: absolute;
+    left: var(--horizontal-spacing);
+    bottom: 20vh;
+    display: inline-block;
+    z-index: 1;
+    max-width: 600px;
+}
+.content h1 {
+    font-size: 5rem;
+    line-height: 5rem;
+}
+
+.content p {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    text-align: justify;
+    max-height: calc(2.5rem * 4);
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--color-base-white);
+    background: var(--background-color-highlighted);
+    cursor: pointer;
+}
