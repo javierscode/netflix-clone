@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { item, title as titleStyle } from "./Card.module.css";
 
 const Card = ({ imageURL, title, large = false }) => {
-    console.log(item)
   const backgroundImage = imageURL
     ? "url('" + imageURL + "')"
     : "linear-gradient(#686868, #4c4c4c)";

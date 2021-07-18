@@ -6,58 +6,12 @@ import { useContent } from "../context/ContentContext";
 
 
 export default function Home() {
-    const { loading, highlighted, mostPopular } = useContent();
-    // const [loadPage, setLoadPage] = useState(false);
 
-    // const [highlight, setHighlight] = useState({});
-
-    // const {movies, setMovies} = useMovies();
-    // const {shows, setShows} = useShows();
-
-    // const {getMostPopularMovies, getMostPopularTVShows, getTopRatedMovies, getTopRatedTVShows, getNetflixOriginalsMovies, getNetflixOriginalsTVShows , getListOfMoviesGenre, getListOfTVShowsGenre} = useAPI()
-
-    // useEffect(async() => {
-
-    //     setLoadPage(false);
-
-    //     const {results : mostPopularMovies} = await getMostPopularMovies()
-    //     const {results : topRatedMovies} = await getTopRatedMovies()
-    //     const {results : netflixOriginalsMovies} = await getNetflixOriginalsMovies()
-    //     const {genres : MoviesGenres} = await getListOfMoviesGenre()
-
-    //     setMovies({...movies, mostPopular: mostPopularMovies, topRated: topRatedMovies, netflixOriginals : netflixOriginalsMovies, MoviesGenres})
-
-    //     const {results : mostPopularTVShows} = await getMostPopularTVShows()
-    //     const {results : topRatedTVShows} = await getTopRatedTVShows()
-    //     const {results : netflixOriginalsTVShows} = await getNetflixOriginalsTVShows()
-    //     const {genres : TVShowsGenres} = await getListOfTVShowsGenre()
-
-    //     setShows({...shows, mostPopular: mostPopularTVShows, topRated: topRatedTVShows, netflixOriginals:netflixOriginalsTVShows,TVShowsGenres})
-
-    // }, []);
-
-    // useEffect(() => {
-    //   if(Object.keys(movies).length >2 && Object.keys(shows).length >2){
-    //     setRandomHighligh();
-    //     setTimeout(() => setLoadPage(true), 500);
-    //   }
-    // }, [movies,shows])
-
-    // const setRandomHighligh = () =>{
-    //     const decision = getRandomElementFromArray(["movies", "shows"]);
-    //     const selected= decision == "movies"
-    //       ? getRandomElementFromArray(movies.mostPopular)
-    //       : getRandomElementFromArray(shows.mostPopular);
-    //     selected.type= decision;
-    //     setHighlight(selected)
-    //   }
-    console.log(highlighted);
+    const { contentLoaded, highlighted, mostPopular, topRated, netflixOriginals } = useContent();
 
     return (
         <>
-            {loading ? (
-                <Loading />
-            ): (
+            {contentLoaded ? (
               <>
                   <Hero
                       title={highlighted.title}
@@ -66,10 +20,14 @@ export default function Home() {
                       youtubeID={highlighted.youtubeID}
                   />
                   <CardList title="Most Popular" list={mostPopular}/>
+                  <CardList title="Top Rated" list={topRated}/>
+                  <CardList title="Netflix Originals" list={netflixOriginals} vertical={true}/>
 
                   <div style={{ margin: "200px" }} />
               </>
-          ) }
+          ): (
+                <Loading />
+            ) }
         </>
     );
 }

@@ -10,19 +10,25 @@ import {
 const ContentContext = React.createContext({});
 
 export const ContentProvider = (props) => {
-  const [loading, setLoading] = useState(true);
+  const [contentLoaded, setContentLoaded] = useState(false);
   const [highlighted, setHighlighted] = useState(null);
   const [mostPopular, setMostPopular] = useState(null);
+  const [topRated, setTopRated] = useState(null);
+  const [netflixOriginals, setNetflixOriginals] = useState(null);
 
   return (
     <ContentContext.Provider
       value={{
-        loading,
-        setLoading,
+        contentLoaded,
+        setContentLoaded,
         highlighted,
         setHighlighted,
         mostPopular,
         setMostPopular,
+        topRated,
+        setTopRated,
+        netflixOriginals,
+        setNetflixOriginals,
       }}
       {...props}
     >
@@ -39,6 +45,10 @@ export const useContent = () => {
     getMostPopularTVShows,
     getVideosFromTVShow,
     getVideosFromMovie,
+    getTopRatedMovies,
+    getTopRatedTVShows,
+    getNetflixOriginalsMovies,
+    getNetflixOriginalsTVShows,
   } = useAPI();
 
   if (!context) {
@@ -48,43 +58,75 @@ export const useContent = () => {
   }
 
   const {
-    loading,
-    setLoading,
+    contentLoaded,
+    setContentLoaded,
     highlighted,
     setHighlighted,
     mostPopular,
     setMostPopular,
+    topRated,
+    setTopRated,
+    netflixOriginals,
+    setNetflixOriginals,
   } = context;
 
-  useEffect(() => {
+  const decideHighlighted = async (array) => {
+    const randomItem = getRandomElementFromArray(array);
+
+    const getHighlightedVideo =
+      randomItem.type == "movie" ? getVideosFromMovie : getVideosFromTVShow;
+
+    const result = await getHighlightedVideo(randomItem.id);
+
+    let youtubeID = null;
+    if (result.length > 0) {
+      youtubeID = result[0].key;
+    }
+    setHighlighted({ ...randomItem, youtubeID });
+  };
+
+  const fetchContent = async () => {
     switch (pathname) {
       case "/":
-        !!!mostPopular &&
-          Promise.all([getMostPopularMovies(), getMostPopularTVShows()]).then(
-            ([mostPopularMovies, mostPopularTVShows]) => {
-              const mostPopularArray = getMergedArray(
-                getStandardItemsArray(mostPopularMovies),
-                getStandardItemsArray(mostPopularTVShows)
-              );
-              setMostPopular(mostPopularArray);
 
-              const randomItem = getRandomElementFromArray(mostPopularArray);
-              const callback =
-                randomItem.type == "movie"
-                  ? getVideosFromMovie
-                  : getVideosFromTVShow;
-              callback(randomItem.id).then((result) => {
-                let youtubeID = null
-                if(result.length > 0){
-                    youtubeID = result[0].key
-                }
-                setHighlighted({ ...randomItem, youtubeID });
-                setLoading(false);
+        const [
+          mostPopularMovies,
+          mostPopularTVShows,
+          topRatedMovies,
+          topRatedTVShows,
+          netflixOriginalsMovies,
+          netflixOriginalsTVShows,
+        ]  = await Promise.all([
+          getMostPopularMovies(),
+          getMostPopularTVShows(),
+          getTopRatedMovies(),
+          getTopRatedTVShows(),
+          getNetflixOriginalsMovies(),
+          getNetflixOriginalsTVShows(),
+        ]).then((data)=> data.map(getStandardItemsArray));
 
-              });
+        const mostPopularArray = getMergedArray(
+          mostPopularMovies,
+          mostPopularTVShows
+        );
+        setMostPopular(mostPopularArray);
 
-            }
-          );
+        await decideHighlighted(mostPopularArray);
+
+        const topRatedArray = getMergedArray(
+          topRatedMovies,
+          topRatedTVShows,
+        );
+        setTopRated(topRatedArray);
+
+        const netflixOriginalsArray = getMergedArray(
+          netflixOriginalsMovies,
+          netflixOriginalsTVShows,
+        );
+        setNetflixOriginals(netflixOriginalsArray);
+
+        setContentLoaded(true);
+
         break;
       case "/movies":
         break;
@@ -94,8 +136,10 @@ export const useContent = () => {
       default:
         break;
     }
-  }),
-    [];
+  };
+  useEffect(() => {
+    !contentLoaded && fetchContent();
+  }, []);
 
-  return { loading, highlighted, mostPopular };
+  return { contentLoaded, highlighted, mostPopular, topRated, netflixOriginals };
 };
