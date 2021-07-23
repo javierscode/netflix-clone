@@ -12,7 +12,7 @@ export const useAPI = () => {
             );
             const data = await result.json();
             const { results } = data;
-            return results;
+            return results ? results : data;
         } catch (error) {
             throw new Error("Algo ha ido mal en la petición a la API");
         }

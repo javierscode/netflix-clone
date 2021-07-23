@@ -2,23 +2,69 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAPI } from "../api";
 import {
-  getMergedArray,
-  getRandomElementFromArray,
-  getStandardItemsArray,
+    getMergedArray,
+    getRandomElementFromArray,
+    getStandardItemsArray,
 } from "../utils";
 
 const ContentContext = React.createContext({});
 
 export const ContentProvider = (props) => {
-  const [contentLoaded, setContentLoaded] = useState(false);
-  const [highlighted, setHighlighted] = useState(null);
-  const [mostPopular, setMostPopular] = useState(null);
-  const [topRated, setTopRated] = useState(null);
-  const [netflixOriginals, setNetflixOriginals] = useState(null);
+    const [contentLoaded, setContentLoaded] = useState(false);
+    const [highlighted, setHighlighted] = useState(null);
+    const [mostPopular, setMostPopular] = useState(null);
+    const [topRated, setTopRated] = useState(null);
+    const [netflixOriginals, setNetflixOriginals] = useState(null);
+    const [genres, setGenres] = useState(null);
 
-  return (
-    <ContentContext.Provider
-      value={{
+    return (
+        <ContentContext.Provider
+            value={{
+                contentLoaded,
+                setContentLoaded,
+                highlighted,
+                setHighlighted,
+                mostPopular,
+                setMostPopular,
+                topRated,
+                setTopRated,
+                netflixOriginals,
+                setNetflixOriginals,
+                genres,
+                setGenres,
+            }}
+            {...props}
+        >
+            {props.children}
+        </ContentContext.Provider>
+    );
+};
+
+export const useContent = (extraList) => {
+    const context = React.useContext(ContentContext);
+    const { pathname } = useLocation();
+    const {
+        getMostPopularMovies,
+        getMostPopularTVShows,
+        getVideosFromTVShow,
+        getVideosFromMovie,
+        getTopRatedMovies,
+        getTopRatedTVShows,
+        getNetflixOriginalsMovies,
+        getNetflixOriginalsTVShows,
+        getListOfMoviesGenre,
+        getListOfTVShowsGenre,
+        getMoviesByGenre,
+        getTVShowsByGenre,
+    } = useAPI();
+
+    if (!context) {
+        throw new Error(
+            "useContent debe estar dentro del proveedor ContentContext"
+        );
+    }
+
+    const {
         contentLoaded,
         setContentLoaded,
         highlighted,
@@ -29,117 +75,132 @@ export const ContentProvider = (props) => {
         setTopRated,
         netflixOriginals,
         setNetflixOriginals,
-      }}
-      {...props}
-    >
-      {props.children}
-    </ContentContext.Provider>
-  );
-};
+        genres,
+        setGenres,
+    } = context;
 
-export const useContent = () => {
-  const context = React.useContext(ContentContext);
-  const { pathname } = useLocation();
-  const {
-    getMostPopularMovies,
-    getMostPopularTVShows,
-    getVideosFromTVShow,
-    getVideosFromMovie,
-    getTopRatedMovies,
-    getTopRatedTVShows,
-    getNetflixOriginalsMovies,
-    getNetflixOriginalsTVShows,
-  } = useAPI();
+    const decideHighlighted = async (array) => {
+        const randomItem = getRandomElementFromArray(array);
 
-  if (!context) {
-    throw new Error(
-      "useContent debe estar dentro del proveedor ContentContext"
-    );
-  }
+        const getHighlightedVideo =
+            randomItem.type == "movie"
+                ? getVideosFromMovie
+                : getVideosFromTVShow;
 
-  const {
-    contentLoaded,
-    setContentLoaded,
-    highlighted,
-    setHighlighted,
-    mostPopular,
-    setMostPopular,
-    topRated,
-    setTopRated,
-    netflixOriginals,
-    setNetflixOriginals,
-  } = context;
+        const result = await getHighlightedVideo(randomItem.id);
 
-  const decideHighlighted = async (array) => {
-    const randomItem = getRandomElementFromArray(array);
+        let youtubeID = null;
+        if (result.length > 0) {
+            youtubeID = result[0].key;
+        }
+        return { ...randomItem, youtubeID };
+    };
 
-    const getHighlightedVideo =
-      randomItem.type == "movie" ? getVideosFromMovie : getVideosFromTVShow;
+    const fetchContent = async () => {
+        switch (pathname) {
+            case "/":
+                const [
+                    mostPopularMovies,
+                    mostPopularTVShows,
+                    topRatedMovies,
+                    topRatedTVShows,
+                    netflixOriginalsMovies,
+                    netflixOriginalsTVShows,
+                ] = await Promise.all([
+                    getMostPopularMovies(),
+                    getMostPopularTVShows(),
+                    getTopRatedMovies(),
+                    getTopRatedTVShows(),
+                    getNetflixOriginalsMovies(),
+                    getNetflixOriginalsTVShows(),
+                ]).then((data) => data.map(getStandardItemsArray));
 
-    const result = await getHighlightedVideo(randomItem.id);
+                const mostPopularArray = getMergedArray(
+                    mostPopularMovies,
+                    mostPopularTVShows
+                );
+                setMostPopular(mostPopularArray);
 
-    let youtubeID = null;
-    if (result.length > 0) {
-      youtubeID = result[0].key;
-    }
-    setHighlighted({ ...randomItem, youtubeID });
-  };
+                const topRatedArray = getMergedArray(
+                    topRatedMovies,
+                    topRatedTVShows
+                );
+                setTopRated(topRatedArray);
 
-  const fetchContent = async () => {
-    switch (pathname) {
-      case "/":
+                const netflixOriginalsArray = getMergedArray(
+                    netflixOriginalsMovies,
+                    netflixOriginalsTVShows
+                );
+                setNetflixOriginals(netflixOriginalsArray);
 
-        const [
-          mostPopularMovies,
-          mostPopularTVShows,
-          topRatedMovies,
-          topRatedTVShows,
-          netflixOriginalsMovies,
-          netflixOriginalsTVShows,
-        ]  = await Promise.all([
-          getMostPopularMovies(),
-          getMostPopularTVShows(),
-          getTopRatedMovies(),
-          getTopRatedTVShows(),
-          getNetflixOriginalsMovies(),
-          getNetflixOriginalsTVShows(),
-        ]).then((data)=> data.map(getStandardItemsArray));
+                let [
+                    highlightedWithVideo,
+                    ListOfMoviesGenre,
+                    ListOfTVShowsGenre,
+                ] = await Promise.all([
+                    decideHighlighted(mostPopularArray),
+                    getListOfMoviesGenre(),
+                    getListOfTVShowsGenre(),
+                ]);
 
-        const mostPopularArray = getMergedArray(
-          mostPopularMovies,
-          mostPopularTVShows
-        );
-        setMostPopular(mostPopularArray);
+                setHighlighted(highlightedWithVideo);
 
-        await decideHighlighted(mostPopularArray);
+                ListOfMoviesGenre = ListOfMoviesGenre.genres.map((el) => {
+                    return { ...el, type: "movie" };
+                });
 
-        const topRatedArray = getMergedArray(
-          topRatedMovies,
-          topRatedTVShows,
-        );
-        setTopRated(topRatedArray);
+                ListOfTVShowsGenre = ListOfTVShowsGenre.genres.map((el) => {
+                    return { ...el, type: "tvshow" };
+                });
 
-        const netflixOriginalsArray = getMergedArray(
-          netflixOriginalsMovies,
-          netflixOriginalsTVShows,
-        );
-        setNetflixOriginals(netflixOriginalsArray);
+                let listOfGenre = getMergedArray(
+                    ListOfMoviesGenre,
+                    ListOfTVShowsGenre
+                );
 
-        setContentLoaded(true);
+                const selectedGenres = [];
 
-        break;
-      case "/movies":
-        break;
-      case "/shows":
-        break;
+                for (let i = 0; i < extraList; i++) {
+                    const element = getRandomElementFromArray(listOfGenre);
+                    listOfGenre = listOfGenre.filter((el) => el != element);
+                    selectedGenres.push(element);
+                }
 
-      default:
-        break;
-    }
-  };
-  useEffect(() => {
-    !contentLoaded && fetchContent();
-  }, []);
+                const genresWithContent = await Promise.all(
+                    selectedGenres.map(async (genre) => {
+                        const callback =
+                            genre.type == "movie"
+                                ? getMoviesByGenre
+                                : getTVShowsByGenre;
+                        const result = await callback(genre.id);
+                        const resultsStandardized = getStandardItemsArray(result)
+                        return { ...genre, list: resultsStandardized };
+                    })
+                );
+                setGenres(genresWithContent);
 
-  return { contentLoaded, highlighted, mostPopular, topRated, netflixOriginals };
+                setContentLoaded(true);
+
+                break;
+            case "/movies":
+                break;
+            case "/shows":
+                break;
+
+            default:
+                break;
+        }
+    };
+    useEffect(() => {
+        !contentLoaded && fetchContent();
+    }, []);
+
+    return {
+        contentLoaded,
+        highlighted,
+        mostPopular,
+        topRated,
+        netflixOriginals,
+        genres,
+    };
 };
