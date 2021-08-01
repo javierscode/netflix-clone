@@ -10,6 +10,7 @@ module.exports={
         rules: [
             loaders.JSLoader,
             loaders.CSSLoader,
+            loaders.CSSModuleLodader,
             loaders.FileLoader,
         ],
     },

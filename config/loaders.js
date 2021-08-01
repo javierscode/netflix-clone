@@ -23,7 +23,7 @@ const JSLoader = {
 };
 const CSSLoader = {
   test: /\.css$/i,
-  exclude: /node_modules/,
+  exclude: [/node_modules/, /\.module\.css$/],
   use: [
     {
       loader: MiniCssExtractPlugin.loader,
@@ -31,6 +31,7 @@ const CSSLoader = {
         publicPath: path.resolve(__dirname, "../dist/css/"),
       },
     },
+
     {
       loader: "css-loader",
       options: { importLoaders: 1 },
@@ -44,6 +45,22 @@ const CSSLoader = {
       },
     },
   ],
+};
+
+const CSSModuleLodader = {
+  test: /\.css$/,
+  exclude: /node_modules/,
+  use: [
+    "style-loader",
+    {
+      loader: "css-loader",
+      options: {
+        importLoaders: 1,
+        modules: true,
+      },
+    },
+  ],
+  include: /\.module\.css$/,
 };
 
 const FileLoader = {
@@ -61,5 +78,6 @@ const FileLoader = {
 module.exports = {
   JSLoader: JSLoader,
   CSSLoader: CSSLoader,
+  CSSModuleLodader: CSSModuleLodader,
   FileLoader: FileLoader,
 };
