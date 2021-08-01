@@ -1,11 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { item, title as titleStyle } from "./Card.module.css";
+import useProgressiveImage from "../../../hooks/useProgressiveImage";
 
 const Card = ({ imageURL, title, large = false }) => {
-  const backgroundImage = imageURL
-    ? "url('" + imageURL + "')"
+
+  const sourceLoaded = useProgressiveImage(imageURL)
+
+  const backgroundImage = sourceLoaded
+    ? "url('" + sourceLoaded + "')"
     : "linear-gradient(#686868, #4c4c4c)";
+
   const height = large ? "600px" : "200px";
   return (
     <div

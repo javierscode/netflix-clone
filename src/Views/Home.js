@@ -16,7 +16,7 @@ export default function Home() {
                   <Hero
                       title={highlighted.title}
                       description={highlighted.description}
-                      backgroundImage={highlighted.images.horizontal}
+                      backgroundImage={highlighted.images.horizontal?.xl}
                       youtubeID={highlighted.youtubeID}
                   />
                   <CardList title="Most Popular" list={mostPopular}/>

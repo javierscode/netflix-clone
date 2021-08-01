@@ -55,7 +55,7 @@ const CardList = ({ title, list, vertical = false }) => {
                         <div key={index} style={{ padding: "0 10px" }}>
                             <Card
                                 title={item.title}
-                                imageURL={vertical ? item.images.vertical : item.images.horizontal}
+                                imageURL={vertical ? item.images.vertical?.sm : item.images.horizontal?.sm}
                                 large={vertical}
                             />
                         </div>
