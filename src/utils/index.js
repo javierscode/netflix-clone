@@ -28,8 +28,8 @@ export const getStandardItemsArray = (array) => {
         title: item.original_title ? item.original_title : item.original_name,
         description: item.overview,
         images: {
-            vertical: getOriginalImage(item.poster_path),
-            horizontal: getOriginalImage(item.backdrop_path),
+            vertical: item.poster_path ? getOriginalImage(item.poster_path): null,
+            horizontal: item.backdrop_path ? getOriginalImage(item.backdrop_path): null,
         },
     }));
 };

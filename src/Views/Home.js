@@ -7,7 +7,7 @@ import { useContent } from "../context/ContentContext";
 
 export default function Home() {
 
-    const { contentLoaded, highlighted, mostPopular, topRated, netflixOriginals, genres } = useContent(2);
+    const { contentLoaded, highlighted, mostPopular, topRated, netflixOriginals, genres } = useContent(4);
 
     return (
         <>
@@ -22,10 +22,10 @@ export default function Home() {
                   <CardList title="Most Popular" list={mostPopular}/>
                   <CardList title="Top Rated" list={topRated}/>
                   <CardList title="Netflix Originals" list={netflixOriginals} vertical={true}/>
-                  {genres.map(genre=>{
+                  {genres.map((genre, index)=>{
                       const {list,name} = genre
                       return (
-                        <CardList title={name} list={list}/>
+                        <CardList key={index} title={name} list={list}/>
                       )
                   })}
                   <div style={{ margin: "200px" }} />
